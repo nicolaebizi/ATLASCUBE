@@ -25,7 +25,7 @@
 //   45, 46     strapping pins (VDD_SPI / boot mode)
 //
 // Allowed pins (broken out on the PCB) — assign freely per variant:
-//   1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18
+//   1  2  3  4  5  6  7  8  9  10  11  12  13  14  15  16  17  18reload
 //   38  39  40  41  42  47  48
 
 // ===== USER CONFIG =====
@@ -40,10 +40,10 @@
 
 
 // ===== DISPLAY DRIVER =====
-#define DISPLAY_ILI9341
+//#define DISPLAY_ILI9341
 // #define DISPLAY_ST7789V
 // #define DISPLAY_ST7796
-// #define DISPLAY_ILI9488
+#define DISPLAY_ILI9488
 // #define DISPLAY_CO5300
 // #define DISPLAY_SSD1322
 
@@ -51,17 +51,17 @@
 
 // ===== UI PROFILE =====
 // #define UI_PROFILE_240X296
-#define UI_PROFILE_320x240
-// #define UI_PROFILE_480x320
+//#define UI_PROFILE_320x240
+#define UI_PROFILE_480x320
 // #define UI_PROFILE_MONO_128X64
 // #define UI_PROFILE_MONO_256X64
 
 
 // ===== TOUCH DRIVER =====
-#define TOUCH_FT6336U
+//#define TOUCH_FT6336U
 // #define TOUCH_CST816D
 // XPT2046 = resistive SPI touch (shares LCD bus or dedicated SPI3)
-// #define TOUCH_XPT2046
+#define TOUCH_XPT2046
 // #define TOUCH_NONE
 
 
@@ -69,7 +69,7 @@
 // DISPLAY_WIDTH / DISPLAY_HEIGHT live in ui_profile.h, derived from UI_PROFILE_*
 
 #define DISPLAY_HOST      SPI2_HOST
-#define DISPLAY_CLK_SPEED   40000000
+#define DISPLAY_CLK_SPEED   20000000
 
 // On-screen FPS + CPU% overlay (bottom-right). 1 = show, 0 = hide at runtime.
 // The monitor is always compiled in (needs CONFIG_LV_USE_SYSMON/OBSERVER/PERF_MONITOR
