@@ -90,7 +90,8 @@ static void splash_create(lv_obj_t *parent)
     // lease lands) so it never depends on the timer firing. White text on a
     // translucent dark pill keeps it readable over the logo art and on any
     // theme/panel. Overlap with the logo is accepted (diagnostic, disableable).
-    if (settings_get()->display.show_boot_info) {
+    //if (settings_get()->display.show_boot_info) {
+    if (false) {
         s_info_label = lv_label_create(parent);
         lv_obj_set_style_text_font(s_info_label, &lv_font_montserrat_14_eu, LV_PART_MAIN);
         lv_obj_set_style_text_color(s_info_label, lv_color_hex(0xFFFFFF), LV_PART_MAIN);

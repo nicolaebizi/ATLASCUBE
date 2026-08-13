@@ -36,6 +36,10 @@
     #define TOUCH_SWAP_XY   1
     #define TOUCH_MIRROR_X  1
     #define TOUCH_MIRROR_Y  0
+// suceste sus jos
+    #define TOUCH_RAW_Y_MIN 3900
+    #define TOUCH_RAW_Y_MAX 200
+
 #elif defined(UI_PROFILE_MONO_128X64)
     #define DISPLAY_WIDTH   128
     #define DISPLAY_HEIGHT  64
