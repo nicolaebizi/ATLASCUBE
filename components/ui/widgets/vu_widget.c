@@ -20,7 +20,7 @@ static const char *TAG = "VU_WIDGET";
 // The real lever for low-end separation is the meter's low edge (f_lo in build_bins),
 // not N: below ~1-2 bins wide the lowest bars gang together no matter the resolution.
 #define VU_FFT_N      1024         // FFT window (power of two)
-#define VU_BARS_MAX   12           // bar count — bars are log-spaced across the
+#define VU_BARS_MAX   16           // bar count — bars are log-spaced across the
                                    // spectrum (decoupled from the EQ band count),
                                    // so this can be any value, not just 2*bands.
 #define VU_TICK_MS    50           // refresh period (~20 fps). Lower than 30 fps on
@@ -169,6 +169,136 @@ static void render_deltas(void)
 // Custom draw: paint all bars in ONE pass over the single VU object. This replaces
 // the former 12 child objects, whose disjoint invalidation rects forced ~12 separate
 // render+flush areas per frame — the real cost (35 ms render / 100% CPU for 318x58 px).
+
+static lv_color_t winamp_segment_color(float level)
+{
+    if (level < 0.60f) {
+        return lv_color_hex(0x00FF00);   // green
+    }
+
+    if (level < 0.80f) {
+        return lv_color_hex(0xFFFF00);   // yellow
+    }
+
+    return lv_color_hex(0xFF0000);       // red
+}
+
+
+static void vu_draw_cb(lv_event_t *e)
+{
+    lv_obj_t   *obj   = lv_event_get_target(e);
+    lv_layer_t *layer = lv_event_get_layer(e);
+
+    lv_area_t a;
+    lv_obj_get_coords(obj, &a);
+
+    lv_draw_rect_dsc_t dsc;
+    lv_draw_rect_dsc_init(&dsc);
+    dsc.bg_opa = LV_OPA_COVER;
+    dsc.radius = 0;
+
+    const int total_h = a.y2 - a.y1 + 1;
+
+    for (int b = 0; b < s_nbars; b++) {
+
+        int hgt = s_hgt[b] < 1 ? 1 : s_hgt[b];
+
+        int x1 = a.x1 + s_pad + b * s_slot;
+        int x2 = x1 + s_bar_w - 1;
+
+        int bar_top = a.y2 - hgt + 1;
+        int bar_bottom = a.y2;
+
+        /*
+         * Verde: 0-60%
+         */
+        int green_top =
+            a.y2 - (total_h * 60) / 100;
+
+        if (bar_bottom >= green_top) {
+            int y1 = green_top;
+            if (y1 < bar_top)
+                y1 = bar_top;
+
+            if (y1 <= bar_bottom) {
+                dsc.bg_color = lv_color_hex(0x00FF00);
+
+                lv_area_t r = {
+                    .x1 = x1,
+                    .y1 = y1,
+                    .x2 = x2,
+                    .y2 = bar_bottom
+                };
+
+                lv_draw_rect(layer, &dsc, &r);
+            }
+        }
+
+        /*
+         * Galben: 60-80%
+         */
+        int yellow_bottom =
+            a.y2 - (total_h * 40) / 100;
+
+        int yellow_top =
+            a.y2 - (total_h * 70) / 100;
+
+        if (bar_top <= yellow_bottom &&
+            yellow_top <= a.y2) {
+
+            int y1 = yellow_top;
+            int y2 = yellow_bottom;
+
+            if (y1 < bar_top)
+                y1 = bar_top;
+
+            if (y2 > bar_bottom)
+                y2 = bar_bottom;
+
+            if (y1 <= y2) {
+                dsc.bg_color = lv_color_hex(0xFFFF00);
+
+                lv_area_t r = {
+                    .x1 = x1,
+                    .y1 = y1,
+                    .x2 = x2,
+                    .y2 = y2
+                };
+
+                lv_draw_rect(layer, &dsc, &r);
+            }
+        }
+
+        /*
+         * Roșu: 80-100%
+         */
+        int red_bottom =
+            a.y2 - (total_h * 70) / 100;
+
+        if (bar_top <= red_bottom) {
+
+            int y1 = bar_top;
+            int y2 = red_bottom;
+
+            if (y2 > bar_bottom)
+                y2 = bar_bottom;
+
+            if (y1 <= y2) {
+                dsc.bg_color = lv_color_hex(0xFF0000);
+
+                lv_area_t r = {
+                    .x1 = x1,
+                    .y1 = y1,
+                    .x2 = x2,
+                    .y2 = y2
+                };
+
+                lv_draw_rect(layer, &dsc, &r);
+            }
+        }
+    }
+}
+/*
 static void vu_draw_cb(lv_event_t *e)
 {
     lv_obj_t   *obj   = lv_event_get_target(e);
@@ -195,7 +325,7 @@ static void vu_draw_cb(lv_event_t *e)
         lv_draw_rect(layer, &dsc, &bar);
     }
 }
-
+*/
 // Exponential smoothing never reaches its target, so a bar falling to rest would
 // otherwise decay through denormal floats forever. Snap to zero well below the
 // level that could round to a visible pixel (see VU_REST_EPS).
