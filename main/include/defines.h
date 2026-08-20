@@ -69,7 +69,7 @@
 // DISPLAY_WIDTH / DISPLAY_HEIGHT live in ui_profile.h, derived from UI_PROFILE_*
 
 #define DISPLAY_HOST      SPI2_HOST
-#define DISPLAY_CLK_SPEED   20000000
+#define DISPLAY_CLK_SPEED   60000000
 
 // On-screen FPS + CPU% overlay (bottom-right). 1 = show, 0 = hide at runtime.
 // The monitor is always compiled in (needs CONFIG_LV_USE_SYSMON/OBSERVER/PERF_MONITOR
