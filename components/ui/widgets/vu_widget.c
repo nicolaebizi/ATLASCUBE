@@ -20,10 +20,10 @@ static const char *TAG = "VU_WIDGET";
 // The real lever for low-end separation is the meter's low edge (f_lo in build_bins),
 // not N: below ~1-2 bins wide the lowest bars gang together no matter the resolution.
 #define VU_FFT_N      1024         // FFT window (power of two)
-#define VU_BARS_MAX   16           // bar count — bars are log-spaced across the
+#define VU_BARS_MAX   24           // bar count — bars are log-spaced across the
                                    // spectrum (decoupled from the EQ band count),
                                    // so this can be any value, not just 2*bands.
-#define VU_TICK_MS    33           // refresh period (~20 fps). Lower than 30 fps on
+#define VU_TICK_MS    50           // refresh period (~20 fps). Lower than 30 fps on
                                    // purpose: the full-VU redraw saturates CPU1 (shared
                                    // with the audio decoders), so 20 fps leaves headroom
                                    // for glitch-free audio. Drop to 33 for smoother VU.
