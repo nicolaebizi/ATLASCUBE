@@ -41,3 +41,21 @@
 - Păstrat `DEV_NOTES.md`.
 - Rezolvate conflictele de sincronizare fără pierderea modificărilor locale.
 - Noua versiune aduce îmbunătățiri pentru OTA firmware update, automatic updates, backup/restore settings, Photo Frame, audio/podcast, Bluetooth, ESP-NOW și MQTT.
+
+## Firmware Upload — USB / Firmware Only
+
+Pentru update normal de firmware pe ESP32-S3, folosim doar firmware-ul aplicației:
+
+    build/atlascube.bin
+
+Nu încărcăm `partition-table.bin`, `ota_data_initial.bin`, `www.bin` sau `config.bin`, pentru a păstra configurația și Web UI-ul existente.
+
+Comanda de upload:
+
+    /Users/djnyk/.espressif/tools/python/v5.5.4/venv/bin/python /Users/djnyk/.espressif/v5.5.4/esp-idf/components/esptool_py/esptool/esptool.py -p /dev/tty.usbmodem101 -b 460800 --before default_reset --after hard_reset --chip esp32s3 write_flash 0x20000 build/atlascube.bin
+
+Dacă portul USB se schimbă, verificăm cu:
+
+    ls /dev/tty.usbmodem*
+
+Important: upload-ul firmware-only la `0x20000` este metoda preferată pentru testarea modificărilor, fără a rescrie configurația.
