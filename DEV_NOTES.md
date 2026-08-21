@@ -31,3 +31,13 @@
 - `VU_TICK_MS` redus de la 50 ms la 33 ms (~30 FPS); testat și funcțional fără glitch-uri audio.
 - Configurația stabilă actuală: ILI9488 60 MHz + LVGL buffer 60 linii + VU refresh 33 ms.
 - Adăugat directorul `winamp/` cu materialele grafice și media folosite pentru interfața Winamp.
+
+## 2026-08-21
+
+### Upstream update
+- Actualizat proiectul local cu schimbările upstream până la v0.51.0.
+- Sincronizat repository-ul personal `nicolaebizi/ATLASCUBE`.
+- Păstrate modificările locale ale VU analyzer.
+- Păstrat `DEV_NOTES.md`.
+- Rezolvate conflictele de sincronizare fără pierderea modificărilor locale.
+- Noua versiune aduce îmbunătățiri pentru OTA firmware update, automatic updates, backup/restore settings, Photo Frame, audio/podcast, Bluetooth, ESP-NOW și MQTT.
