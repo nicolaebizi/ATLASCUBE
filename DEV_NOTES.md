@@ -24,3 +24,10 @@
 - `VU_TICK_MS` redus de la 50 ms la 33 ms (~30 FPS); testat și funcțional fără glitch-uri audio.
 - Configurația stabilă actuală: ILI9488 60 MHz + LVGL buffer 60 linii + VU refresh 33 ms.
 - Adăugat directorul `winamp/` cu materialele grafice și media folosite pentru interfața Winamp.
+
+### Performance — ILI9488 / VU
+- ILI9488 SPI crescut la 60 MHz; 80 MHz a fost testat și nu a fost stabil.
+- LVGL buffer pentru ILI9488 crescut de la 20 la 60 linii; testat și funcțional.
+- `VU_TICK_MS` redus de la 50 ms la 33 ms (~30 FPS); testat și funcțional fără glitch-uri audio.
+- Configurația stabilă actuală: ILI9488 60 MHz + LVGL buffer 60 linii + VU refresh 33 ms.
+- Adăugat directorul `winamp/` cu materialele grafice și media folosite pentru interfața Winamp.
